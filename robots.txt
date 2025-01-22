@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://avian-chronicles.com/sitemap.xml
