@@ -1,7 +1,23 @@
 import fs from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
-import { Post } from './types'
+
+// Post tipini tanımlayalım
+export type Post = {
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  readTime: string;
+  categories: string[];
+  author?: {
+    name: string;
+    avatar: string;
+    role: string;
+  };
+  content?: string;
+};
 
 const postsDirectory = path.join(process.cwd(), 'posts')
 
