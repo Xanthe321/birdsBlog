@@ -1,3 +1,5 @@
+import { Post } from "@/lib/types" // veya Post tipinin bulunduğu dosya
+
 // Example content for demonstration
 export const exampleContent = `
 <p>Kel Kartal (<em>Haliaeetus leucocephalus</em>), Kuzey Amerika'da gücün ve özgürlüğün kalıcı bir sembolü olarak duruyor. Beyaz başı, koyu kahverengi gövdesi ve 2,3 metreye ulaşan kanat açıklığıyla, bu görkemli yırtıcı kuş görüldüğü her yerde dikkat çekiyor.</p>

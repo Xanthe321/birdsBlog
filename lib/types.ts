@@ -4,13 +4,19 @@ export type Category = {
 }
 
 export type Post = {
-  title: string
-  excerpt: string
-  image: string
-  categories: string[]
-  date: string
-  readTime: string
-  slug: string
+  slug: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  image: string;
+  readTime: string;
+  categories: string[];
+  author?: {
+    name: string;
+    avatar: string;
+    role: string;
+  };
+  content?: string;
 }
 
 export const categories: Category[] = [
