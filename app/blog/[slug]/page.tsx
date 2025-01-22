@@ -1,14 +1,5 @@
-import { BlogPreview } from "@/components/blog-preview";
-import { getPostBySlug, getAllPosts } from "@/lib/mdx";
-import { serialize } from "next-mdx-remote/serialize";
-import { notFound } from "next/navigation";
-
-export async function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
+import { getPostBySlug } from "@/lib/mdx";
+import { MDXRemote } from "next-mdx-remote/rsc";
 
 export default async function BlogPost({
   params,
@@ -18,22 +9,15 @@ export default async function BlogPost({
   const post = getPostBySlug(params.slug);
 
   if (!post) {
-    notFound();
+    return <div>Post not found</div>;
   }
 
-  const mdxSource = await serialize(post.content);
-
   return (
-    <BlogPreview
-      post={{
-        ...post,
-        author: {
-          name: "Default Author",
-          avatar: "/default-avatar.jpg",
-          role: "Writer",
-        },
-        content: mdxSource,
-      }}
-    />
+    <article className="container py-8 max-w-3xl mx-auto">
+      <h1 className="text-4xl font-bold mb-4">{post.title}</h1>
+      <div className="prose prose-lg dark:prose-invert">
+        <MDXRemote source={post.content} />
+      </div>
+    </article>
   );
 }
