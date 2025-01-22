@@ -50,7 +50,13 @@ export function getPostBySlug(slug: string) {
     return {
       slug,
       content,
-      ...(data as Omit<Post, 'slug'>),
+      title: data.title,
+      date: data.date,
+      excerpt: data.excerpt,
+      image: data.image,
+      readTime: data.readTime,
+      categories: data.categories,
+      author: data.author,
     }
   } catch (error) {
     console.error(`Error reading post ${slug}:`, error)
