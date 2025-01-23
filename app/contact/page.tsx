@@ -17,7 +17,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
     toast.success("Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.")
     setFormData({ name: "", email: "", subject: "", message: "" })
   }

@@ -6,10 +6,8 @@ import { Bird } from "lucide-react";
 export default function BlogPage() {
   try {
     const posts = getAllPosts();
-    console.log("Blog page posts:", posts); // Kaç post geldi?
-
+    
     if (!posts || posts.length === 0) {
-      console.log("No posts found"); // Posts boş mu?
       return (
         <div className="container py-8">Henüz blog yazısı bulunmamaktadır.</div>
       );

@@ -4,8 +4,7 @@ import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-import { categories } from "@/lib/types";
+import { useState, useMemo } from "react";
 import type { Post } from "@/lib/types";
 
 type BlogSectionProps = {
@@ -13,16 +12,47 @@ type BlogSectionProps = {
 };
 
 export function BlogSection({ initialPosts }: BlogSectionProps) {
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedCategory, setSelectedCategory] = useState("Tümü");
 
-  const filteredPosts =
-    selectedCategory === "all"
-      ? initialPosts
-      : initialPosts.filter((post) =>
-          post.categories.includes(selectedCategory)
-        );
+  // Get unique categories and format them
+  const categories = useMemo(() => {
+    const allCategories = initialPosts.flatMap((post) => post.categories);
+    const uniqueCategories = Array.from(new Set(allCategories)).map(
+      (category) => {
+        // Remove slashes if any
+        const withoutSlash = category.replace(/\//g, " ");
 
-  // Sadece ilk 9 postu göster
+        // Split by hyphen and capitalize each word
+        return withoutSlash
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+    );
+
+    // Sort alphabetically and add "Tümü" at the beginning
+    return ["Tümü", ...uniqueCategories.sort()];
+  }, [initialPosts]);
+
+  // Sort posts by date and filter by category
+  const filteredPosts = useMemo(() => {
+    const sortedPosts = [...initialPosts].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    if (selectedCategory === "Tümü") return sortedPosts;
+
+    // Convert selected category back to original format for filtering
+    const filterCategory = selectedCategory.toLowerCase().replace(/\s+/g, "-");
+
+    return sortedPosts.filter((post) =>
+      post.categories.some((cat) => cat.toLowerCase() === filterCategory)
+    );
+  }, [initialPosts, selectedCategory]);
+
+  // Show only first 9 posts
   const displayedPosts = filteredPosts.slice(0, 9);
 
   return (
@@ -40,20 +70,20 @@ export function BlogSection({ initialPosts }: BlogSectionProps) {
               </p>
             </div>
 
-            {/* Category Filter */}
+            {/* Dynamic Category Tabs */}
             <div className="flex flex-wrap gap-2">
               {categories.map((category) => (
                 <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium transition-colors
                     ${
-                      selectedCategory === category.id
+                      selectedCategory === category
                         ? "bg-primary text-primary-foreground"
                         : "bg-muted hover:bg-muted/80 text-muted-foreground"
                     }`}
                 >
-                  {category.name}
+                  {category}
                 </button>
               ))}
             </div>
@@ -76,21 +106,11 @@ export function BlogSection({ initialPosts }: BlogSectionProps) {
                 </div>
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2 text-sm">
-                    {post.categories.map((categoryId) => {
-                      const category = categories.find(
-                        (c) => c.id === categoryId
-                      );
-                      return (
-                        category && (
-                          <span
-                            key={categoryId}
-                            className="text-primary font-medium"
-                          >
-                            {category.name}
-                          </span>
-                        )
-                      );
-                    })}
+                    {post.categories.map((category) => (
+                      <span key={category} className="text-primary font-medium">
+                        {category}
+                      </span>
+                    ))}
                     <span className="text-muted-foreground">
                       {post.readTime}
                     </span>
@@ -110,7 +130,7 @@ export function BlogSection({ initialPosts }: BlogSectionProps) {
             <div className="flex justify-center">
               <Button asChild variant="outline" size="lg">
                 <Link href="/blog" className="group">
-                  View All Posts
+                  Tüm Yazıları Gör
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Link>
               </Button>
