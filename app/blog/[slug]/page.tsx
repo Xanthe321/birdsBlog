@@ -1,7 +1,10 @@
 import { getPostBySlug } from "@/lib/mdx";
-import { compileMDX } from "next-mdx-remote/rsc";
+import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
-import { Calendar, Clock, User } from "lucide-react";
+import { Calendar, Clock, Share2 } from "lucide-react";
+import Link from "next/link";
+import { ShareButton } from "@/components/share-button";
+import { AvatarFallback } from "@/components/avatar-fallback";
 
 export default async function BlogPost({
   params,
@@ -14,11 +17,6 @@ export default async function BlogPost({
     return <div>Post not found</div>;
   }
 
-  const { content } = await compileMDX({
-    source: post.content,
-    options: { parseFrontmatter: true },
-  });
-
   // Format date manually since we removed date-fns
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -30,74 +28,74 @@ export default async function BlogPost({
   };
 
   return (
-    <article className="min-h-screen bg-background">
-      {/* Hero Section with Image */}
-      <div className="relative h-[60vh] w-full">
-        {post.image && (
+    <article className="max-w-2xl mx-auto px-6 py-8">
+      {/* Category */}
+      <Link
+        href={`/categories/${post.categories[0]}`}
+        className="inline-block px-4 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary mb-6"
+      >
+        {post.categories[0]}
+      </Link>
+
+      {/* Title */}
+      <h1 className="text-3xl font-bold tracking-tight mb-4">{post.title}</h1>
+
+      {/* Meta Info */}
+      <div className="flex items-center gap-2 text-muted-foreground text-sm mb-8">
+        <time dateTime={post.date} className="flex items-center gap-1">
+          <Calendar className="h-4 w-4" />
+          {formatDate(post.date)}
+        </time>
+        <span>·</span>
+        <span className="flex items-center gap-1">
+          <Clock className="h-4 w-4" />
+          {post.readTime}
+        </span>
+      </div>
+
+      {/* Featured Image */}
+      <div className="mb-6">
+        <div className="relative aspect-[16/9]">
           <Image
             src={post.image}
             alt={post.title}
             fill
-            className="object-cover"
+            className="object-cover rounded-lg"
             priority
           />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent" />
+        </div>
       </div>
 
-      {/* Content Section */}
-      <div className="container max-w-4xl mx-auto -mt-32 relative">
-        <div className="bg-card rounded-xl shadow-lg p-8 md:p-12">
-          {/* Meta Info */}
-          <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-6">
-            {post.date && (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                <time dateTime={post.date}>{formatDate(post.date)}</time>
-              </div>
-            )}
-            {post.readTime && (
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4" />
-                <span>{post.readTime}</span>
-              </div>
-            )}
-            {post.author?.name && (
-              <div className="flex items-center gap-2">
-                <User className="h-4 w-4" />
-                <span>{post.author.name}</span>
-              </div>
-            )}
+      {/* Divider */}
+      <div className="border-b mb-6" />
+
+      {/* Author and Share Section */}
+      <div className="flex items-center justify-between mb-8">
+        {/* Author */}
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-medium">
+            {post.author.name.charAt(0)}
           </div>
-
-          {/* Title */}
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-6">
-            {post.title}
-          </h1>
-
-          {/* Excerpt */}
-          {post.excerpt && (
-            <p className="text-xl text-muted-foreground mb-8">{post.excerpt}</p>
-          )}
-
-          {/* Categories */}
-          {post.categories && post.categories.length > 0 && (
-            <div className="flex gap-2 mb-12">
-              {post.categories.map((category: string) => (
-                <span
-                  key={category}
-                  className="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm"
-                >
-                  {category}
-                </span>
-              ))}
-            </div>
-          )}
-
-          {/* Main Content */}
-          <div className="prose prose-lg dark:prose-invert max-w-none">
-            {content}
+          <div>
+            <h3 className="font-medium text-base">{post.author.name}</h3>
+            <p className="text-muted-foreground text-sm">{post.author.role}</p>
           </div>
+        </div>
+
+        {/* Share Button */}
+        <ShareButton />
+      </div>
+
+      {/* Main Content */}
+      <div className="prose prose-lg max-w-none">
+        <MDXRemote source={post.content} />
+      </div>
+
+      {/* Recent Posts */}
+      <div className="mt-16 pt-8 border-t">
+        <h2 className="text-lg font-medium mb-6">Recent Posts</h2>
+        <div className="grid grid-cols-3 gap-6">
+          {/* Recent post cards buraya gelecek */}
         </div>
       </div>
     </article>
