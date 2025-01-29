@@ -1,10 +1,9 @@
 import { getPostBySlug } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Image from "next/image";
-import { Calendar, Clock, Share2 } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 import Link from "next/link";
 import { ShareButton } from "@/components/share-button";
-import { AvatarFallback } from "@/components/avatar-fallback";
 
 export default async function BlogPost({
   params,
