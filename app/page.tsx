@@ -1,10 +1,11 @@
 import { HeroSection } from "@/components/hero-section";
 import { BlogSection } from "@/components/blog-section";
 import { NewsletterSection } from "@/components/newsletter-section";
-import { getAllPosts } from "@/lib/mdx";
+import { getAllBlogPosts } from "@/lib/mdx";
 
-export default function Home() {
-  const posts = getAllPosts();
+
+export default async function Home() {
+  const posts = await getAllBlogPosts();
 
   return (
     <div className="flex flex-col min-h-screen">

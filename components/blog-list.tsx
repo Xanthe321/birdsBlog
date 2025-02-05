@@ -5,17 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Post } from "@/lib/types";
 
-type BlogListProps = {
-  featuredPost: Post;
-  regularPosts: Post[];
-};
 
-export function BlogList({ featuredPost, regularPosts }: BlogListProps) {
+export function BlogList({ posts }: {posts: Post[]}) {
   const [selectedCategory, setSelectedCategory] = useState("Tümü");
 
   // Get unique categories and format them
   const categories = useMemo(() => {
-    const allPosts = [featuredPost, ...regularPosts];
+    const allPosts = posts;
     const allCategories = allPosts.flatMap((post) => post.categories);
     const uniqueCategories = Array.from(new Set(allCategories)).map(
       (category) => {
@@ -32,17 +28,15 @@ export function BlogList({ featuredPost, regularPosts }: BlogListProps) {
 
     // Sort alphabetically and add "Tümü" at the beginning
     return ["Tümü", ...uniqueCategories.sort()];
-  }, [featuredPost, regularPosts]);
+  }, [posts]);
 
   // Filter and sort all posts including featured post
   const filteredPosts = useMemo(() => {
-    const allPosts = [featuredPost, ...regularPosts];
-
     // First filter by category
     const filtered =
       selectedCategory === "Tümü"
-        ? allPosts
-        : allPosts.filter((post) =>
+        ? posts
+        : posts.filter((post) =>
             post.categories.some(
               (cat) =>
                 cat.toLowerCase() ===
@@ -56,7 +50,7 @@ export function BlogList({ featuredPost, regularPosts }: BlogListProps) {
       const dateB = new Date(b.date);
       return dateB.getTime() - dateA.getTime();
     });
-  }, [featuredPost, regularPosts, selectedCategory]);
+  }, [posts, selectedCategory]);
 
   const PostCard = ({
     post,

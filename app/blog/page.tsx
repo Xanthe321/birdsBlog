@@ -1,20 +1,18 @@
 import { BlogList } from "@/components/blog-list";
-import { getAllPosts } from "@/lib/mdx";
+import { getAllBlogPosts } from "@/lib/mdx";
+
 
 import { Bird } from "lucide-react";
 
-export default function BlogPage() {
+export default async function BlogPage() {
   try {
-    const posts = getAllPosts();
+    const posts = await getAllBlogPosts();
     
     if (!posts || posts.length === 0) {
       return (
         <div className="container py-8">Henüz blog yazısı bulunmamaktadır.</div>
       );
     }
-
-    const featuredPost = posts[0];
-    const regularPosts = posts.slice(1);
 
     return (
       <div className="min-h-screen bg-background">
@@ -42,7 +40,7 @@ export default function BlogPage() {
           </div>
         </section>
 
-        <BlogList featuredPost={featuredPost} regularPosts={regularPosts} />
+        <BlogList posts={posts} />
       </div>
     );
   } catch (error) {

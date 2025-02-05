@@ -1,81 +1,82 @@
-import fs from 'fs'
+import fs from 'fs/promises' // fs yerine fs.promises kullanıyoruz
 import path from 'path'
 import matter from 'gray-matter'
+import { compileMDX } from 'next-mdx-remote/rsc'
+import { Post } from './types'
 
-// Post tipini tanımlayalım
-export type Post = {
-  slug: string;
-  title: string;
-  date: string;
-  excerpt: string;
-  image: string;
-  readTime: string;
-  categories: string[];
-  author?: {
-    name: string;
-    avatar: string;
-    role: string;
-  };
-  content?: string;
-};
+const rootDirectory = path.join(process.cwd(), 'content/blogs')
 
-const postsDirectory = path.join(process.cwd(), 'posts')
+export async function getBlogBySlug(slug: string): Promise<Post> {
+  const realSlug = slug.replace(/\.mdx$/, '')
+  const filePath = path.join(rootDirectory, `${realSlug}.mdx`)
+  const fileContent = await fs.readFile(filePath, { encoding: 'utf8' }) // Artık async!
 
-export function getAllPosts(): Post[] {
-  try {
-    // Check if directory exists
-    if (!fs.existsSync(postsDirectory)) {
-      console.warn('Posts directory does not exist')
-      return []
-    }
-
-    const fileNames = fs.readdirSync(postsDirectory)
-    const allPostsData = fileNames
-      .filter(fileName => fileName.endsWith('.mdx'))
-      .map(fileName => {
-        const slug = fileName.replace(/\.mdx$/, '')
-        const fullPath = path.join(postsDirectory, fileName)
-        const fileContents = fs.readFileSync(fullPath, 'utf8')
-        const { data } = matter(fileContents)
-
-        return {
-          slug,
-          ...(data as Omit<Post, 'slug'>),
-        }
-      })
-
-    return allPostsData.sort((a, b) => {
-      if (a.date < b.date) {
-        return 1
-      } else {
-        return -1
+  const { data, content } = matter(fileContent)
+  const { content: compiledContent } = await compileMDX({
+    source: content,
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [],
+        rehypePlugins: [],
       }
-    })
-  } catch (error) {
-    console.error('Error reading posts:', error)
-    return []
+    }
+  })
+
+  return {
+    title: data.title,
+    excerpt: data.excerpt,
+    date: data.date,
+    slug: realSlug,
+    content: compiledContent,
+    readTime: calculateReadingTime(content),
+    image: data.image,
+    categories: data.categories,
+    author: data.author
   }
 }
 
-export function getPostBySlug(slug: string) {
-  try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`)
-    const fileContents = fs.readFileSync(fullPath, 'utf8')
-    const { data, content } = matter(fileContents)
+export async function getAllBlogPosts(): Promise<Post[]> {
+  const files = await fs.readdir(rootDirectory) // Artık async!
+  
+  const posts = await Promise.all(
+    files.map(async (file) => {
+      const realSlug = file.replace(/\.mdx$/, '')
+      const filePath = path.join(rootDirectory, file)
+      const fileContent = await fs.readFile(filePath, { encoding: 'utf8' }) // Artık async!
+      const { data, content } = matter(fileContent)
 
-    return {
-      slug,
-      content,
-      title: data.title,
-      date: data.date,
-      excerpt: data.excerpt,
-      image: data.image,
-      readTime: data.readTime,
-      categories: data.categories,
-      author: data.author,
-    }
-  } catch (error) {
-    console.error(`Error reading post ${slug}:`, error)
-    return null
-  }
+      const { content: compiledContent } = await compileMDX({
+        source: content,
+        options: {
+          parseFrontmatter: true,
+          mdxOptions: {
+            remarkPlugins: [],
+            rehypePlugins: [],
+          },
+        },
+      })
+
+      return {
+        title: data.title,
+        excerpt: data.excerpt,
+        date: data.date,
+        slug: realSlug,
+        content: compiledContent,
+        readTime: calculateReadingTime(content),
+        image: data.image,
+        categories: data.categories,
+        author: data.author
+      }
+    })
+  )
+
+  return posts.sort((post1, post2) => new Date(post2.date).getTime() - new Date(post1.date).getTime())
+}
+
+function calculateReadingTime(content: string): string {
+  const wordsPerMinute = 200
+  const numberOfWords = content.split(/\s/g).length
+  const minutes = Math.ceil(numberOfWords / wordsPerMinute)
+  return `${minutes} min read`
 } 

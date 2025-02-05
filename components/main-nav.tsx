@@ -27,7 +27,7 @@ export function MainNav() {
     <div className="flex items-center justify-between w-full md:w-auto md:justify-start gap-6 md:gap-10">
       <Link href="/" className="flex items-center space-x-2">
         <Bird className="h-6 w-6" />
-        <span className="inline-block font-bold">Avian Chronicles</span>
+        <span className="inline-block font-bold">KuşTürleri</span>
       </Link>
 
       {/* Desktop Navigation */}

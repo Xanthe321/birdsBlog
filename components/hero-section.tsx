@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { Bird, ArrowRight } from "lucide-react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import { Bird, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
@@ -12,16 +12,21 @@ export function HeroSection() {
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full">
               <Bird className="h-4 w-4" />
-              <span className="text-sm font-medium tracking-wide uppercase">Avian Chronicles</span>
+              <span className="text-sm font-medium tracking-wide uppercase">
+                Kus Turleri
+              </span>
             </div>
-            
+
             <div className="space-y-4">
               <h1 className="text-4xl md:text-5xl lg:text-7xl font-bold tracking-tight">
                 Kuşların
-                <span className="text-primary block mt-2">Sanatını Keşfet</span>
+                <span className="text-primary block mt-2">
+                  Dunyasini Keşfet
+                </span>
               </h1>
               <p className="text-base md:text-lg text-muted-foreground leading-relaxed max-w-[600px]">
-                Kuş tutkunları topluluğumuza katılın ve uzman görüşleri ve etkileyici fotoğraflar aracılığıyla doğanın en büyüleyici canlılarını keşfedin.
+                Kuşlar hakkında bilgi edinmek ve bu büyüleyici canlıların
+                dünyasına adım atmak için blogumuzu keşfedin.
               </p>
             </div>
 
@@ -98,5 +103,5 @@ export function HeroSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }

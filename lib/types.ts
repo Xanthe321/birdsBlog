@@ -16,7 +16,7 @@ export type Post = {
     avatar: string;
     role: string;
   };
-  content?: string;
+  content: any;
 }
 
 export const categories: Category[] = [
