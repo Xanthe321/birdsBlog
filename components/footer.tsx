@@ -5,15 +5,15 @@ import Link from "next/link"
 
 const footerLinks = {
   about: [
-    { label: "Hakkımızda", href: "/about" },
-    { label: "Ekibimiz", href: "/team" },
-    { label: "Kariyer", href: "/careers" },
-    { label: "İletişim", href: "/contact" }
+    // { label: "Hakkımızda", href: "/about" },
+    // { label: "Ekibimiz", href: "/team" },
+    // { label: "Kariyer", href: "/careers" },
+    { label: "İletişim", href: "/iletisim" }
   ],
   explore: [
     { label: "Son Yazılar", href: "/blog" },
-    { label: "Kuş Türleri", href: "/species" },
-    { label: "Fotoğraf İpuçları", href: "/tips" },
+    // { label: "Kuş Türleri", href: "/species },
+    // { label: "Fotoğraf İpuçları", href: "/tips" },
     { label: "Etkinlikler", href: "/events" }
   ],
   resources: [
@@ -93,7 +93,7 @@ export function Footer() {
             </ul>
           </div>
 
-          <div className="space-y-4">
+          {/* <div className="space-y-4">
             <h3 className="font-semibold">Kaynaklar</h3>
             <ul className="space-y-3">
               {footerLinks.resources.map((link) => (
@@ -107,20 +107,20 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-          </div>
+          </div> */}
         </div>
 
         <div className="border-t mt-8 md:mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
             <p>© 2024 Avian Chronicles. Tüm hakları saklıdır.</p>
-            <div className="flex gap-4 md:gap-6">
+            {/* <div className="flex gap-4 md:gap-6">
               <Link href="/privacy" className="hover:text-foreground transition-colors">
                 Gizlilik Politikası
               </Link>
               <Link href="/terms" className="hover:text-foreground transition-colors">
                 Kullanım Koşulları
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { MainNav } from "@/components/main-nav";
@@ -9,27 +9,45 @@ import { Footer } from "@/components/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Avian Chronicles - Kuş Gözlem Blogu",
+  title: {
+    default: "Kuşların Dünyası | Kuş Türleri ve Bilgileri",
+    template: "%s | Kuşların Dünyası",
+  },
   description:
-    "Özenle seçilmiş makaleler ve fotoğraflar aracılığıyla kuşların büyüleyici dünyasını keşfedin",
-  keywords:
-    "kuş gözlemi, kuş fotoğrafçılığı, doğa fotoğrafçılığı, kuşlar, yaban hayatı",
+    "Türkiye ve dünyadan kuş türleri, kuşlar hakkında detaylı bilgiler, fotoğraflar ve daha fazlası.",
+  keywords: [
+    "kuşlar",
+    "kuş türleri",
+    "kuş fotoğrafları",
+    "kuş bilgileri",
+    "ornitoloji",
+  ],
+  authors: [{ name: "Site Sahibinin Adı" }],
+  creator: "Site Sahibinin Adı",
   openGraph: {
-    title: "Avian Chronicles",
+    type: "website",
+    locale: "tr_TR",
+    url: "https://sizinsiteadresiniz.com",
+    title: "Kuşların Dünyası | Kuş Türleri ve Bilgileri",
     description:
-      "Özenle seçilmiş makaleler ve fotoğraflar aracılığıyla kuşların büyüleyici dünyasını keşfedin",
-    url: "https://avian-chronicles.com",
-    siteName: "Avian Chronicles",
+      "Türkiye ve dünyadan kuş türleri, kuşlar hakkında detaylı bilgiler, fotoğraflar ve daha fazlası.",
+    siteName: "Kuşların Dünyası",
     images: [
       {
-        url: "https://images.unsplash.com/photo-1444464666168-49d633b86797",
-        width: 1200,
-        height: 630,
-        alt: "Avian Chronicles Ana Görsel",
+        url: "/og-image.jpg", // Ana sayfa için bir Open Graph resmi ekleyin
       },
     ],
-    locale: "tr_TR",
-    type: "website",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
     canonical: "https://avian-chronicles.com",

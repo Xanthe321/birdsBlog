@@ -18,9 +18,9 @@ export function MainNav() {
   
   const links = [
     { href: "/", label: "Ana Sayfa" },
-    { href: "/blog", label: "Blog" },
-    { href: "/gallery", label: "Galeri" },
-    { href: "/contact", label: "İletişim" },
+    { href: "blog", label: "Blog" },
+    // { href: "galeri", label: "Galeri" },
+    { href: "iletisim", label: "İletişim" },
   ]
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { Bird, ArrowRight } from "lucide-react";
+import { Bird, ArrowRight, Link } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
@@ -31,13 +31,20 @@ export function HeroSection() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Button size="lg" className="group">
+              <a
+                href="/blog"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-[#2563EB] text-white hover:bg-[#2563EB]/90 group transition-colors"
+              >
                 Keşfetmeye Başla
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Button>
-              <Button size="lg" variant="outline">
+              </a>
+
+              <a
+                href="/galeri"
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+              >
                 Galeriyi Gör
-              </Button>
+              </a>
             </div>
 
             {/* <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-8 pt-8 border-t">
@@ -91,7 +98,7 @@ export function HeroSection() {
 
               <div className="relative aspect-square rounded-xl overflow-hidden shadow-lg">
                 <Image
-                  src="https://images.unsplash.com/photo-1548715089-038b5579d689"
+                  src="https://images.unsplash.com/photo-1522926193341-e9ffd686c60f?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                   alt="Görkemli kartal"
                   fill
                   className="object-cover transition-transform duration-500 hover:scale-105"
