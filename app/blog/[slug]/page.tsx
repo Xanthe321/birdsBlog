@@ -55,7 +55,7 @@ export default async function BlogPost({
   };
 
   return (
-    <article className="max-w-5xl mx-auto px-6 py-8">
+    <article className="max-w-2xl mx-auto px-6 py-8">
       {/* Category */}
       {/* <Link
         href={`/categories/${post.categories[0]}`}
@@ -113,8 +113,75 @@ export default async function BlogPost({
         <ShareButton />
       </div>
 
-      {/* Main Content */}
-      <div className="prose prose-lg max-w-none">{post.content}</div>
+      {/* MDX Content */}
+      <div
+        className="prose prose-lg max-w-none
+        /* Başlıklar */
+        prose-headings:font-bold
+        prose-h1:text-3xl
+        prose-h2:text-2xl
+        prose-h3:text-xl
+        prose-headings:text-gray-900
+        prose-headings:my-6
+
+        /* Paragraflar */
+        prose-p:text-gray-600
+        prose-p:leading-relaxed
+        prose-p:my-4
+
+        /* Listeler */
+        prose-ul:list-disc
+        prose-ol:list-decimal
+        prose-li:text-gray-600
+        prose-li:my-2
+
+        /* Linkler */
+        prose-a:text-blue-600
+        prose-a:font-medium
+        prose-a:no-underline
+        hover:prose-a:underline
+
+        /* Resimler */
+        prose-img:rounded-lg
+        prose-img:my-8
+
+        /* Alıntılar */
+        prose-blockquote:border-l-4
+        prose-blockquote:border-gray-300
+        prose-blockquote:pl-4
+        prose-blockquote:italic
+        prose-blockquote:text-gray-700
+
+        /* Kod blokları */
+        prose-code:text-blue-600
+        prose-code:bg-blue-50
+        prose-code:px-1.5
+        prose-code:py-0.5
+        prose-code:rounded
+        prose-pre:bg-gray-900
+        prose-pre:text-gray-100
+        prose-pre:p-4
+        prose-pre:rounded-lg
+
+        /* Tablolar */
+        prose-table:border-collapse
+        prose-th:border
+        prose-th:border-gray-300
+        prose-th:p-2
+        prose-td:border
+        prose-td:border-gray-300
+        prose-td:p-2
+
+        /* Diğer */
+        prose-hr:my-8
+        prose-hr:border-gray-200
+        prose-strong:font-bold
+        prose-strong:text-gray-900
+        prose-em:italic
+      "
+      >
+        {post.content}
+      </div>
 
       {/* Recent Posts */}
       {recentPosts.length > 0 && (
@@ -156,7 +223,7 @@ export default async function BlogPost({
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-gray-600 text-sm line-clamp-2">
+                  <p className="text-gray-600 text-sm line-clamp-2 bg-red-500">
                     {recentPost.excerpt}
                   </p>
                 </div>

@@ -17,20 +17,20 @@ export function BlogSection({ initialPosts }: BlogSectionProps) {
   // Get unique categories and format them
   const categories = useMemo(() => {
     const allCategories = initialPosts.flatMap((post) => post.categories);
+
+    // Benzersiz kategorileri al ve formatla
     const uniqueCategories = Array.from(new Set(allCategories)).map(
       (category) => {
-        // Remove slashes if any
-        const withoutSlash = category.replace(/\//g, " ");
-
-        // Split by hyphen and capitalize each word
-        return withoutSlash
+        // Kategoriyi normalize et
+        return category
+          .toLowerCase()
           .split("-")
           .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
           .join(" ");
       }
     );
 
-    // Sort alphabetically and add "Tümü" at the beginning
+    // Sırala ve "Tümü" ekle
     return ["Tümü", ...uniqueCategories.sort()];
   }, [initialPosts]);
 
@@ -44,11 +44,15 @@ export function BlogSection({ initialPosts }: BlogSectionProps) {
 
     if (selectedCategory === "Tümü") return sortedPosts;
 
-    // Convert selected category back to original format for filtering
-    const filterCategory = selectedCategory.toLowerCase().replace(/\s+/g, "-");
+    // Seçili kategoriyi normalize et
+    const normalizedSelectedCategory = selectedCategory
+      .toLowerCase()
+      .replace(/\s+/g, "-");
 
     return sortedPosts.filter((post) =>
-      post.categories.some((cat) => cat.toLowerCase() === filterCategory)
+      post.categories.some(
+        (cat) => cat.toLowerCase() === normalizedSelectedCategory
+      )
     );
   }, [initialPosts, selectedCategory]);
 
