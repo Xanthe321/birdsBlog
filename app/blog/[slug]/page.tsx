@@ -55,7 +55,7 @@ export default async function BlogPost({
   };
 
   return (
-    <article className="max-w-2xl mx-auto px-6 py-8">
+    <article className="max-w-4xl mx-auto px-6 py-8">
       {/* Category */}
       {/* <Link
         href={`/categories/${post.categories[0]}`}
@@ -120,9 +120,11 @@ export default async function BlogPost({
         prose-headings:font-bold
         prose-h1:text-3xl
         prose-h2:text-2xl
+        prose-h2:mt-8
+        prose-h3:mt-8
         prose-h3:text-xl
         prose-headings:text-gray-900
-        prose-headings:my-6
+        prose-headings:my-4
 
         /* Paragraflar */
         prose-p:text-gray-600
@@ -151,17 +153,6 @@ export default async function BlogPost({
         prose-blockquote:pl-4
         prose-blockquote:italic
         prose-blockquote:text-gray-700
-
-        /* Kod blokları */
-        prose-code:text-blue-600
-        prose-code:bg-blue-50
-        prose-code:px-1.5
-        prose-code:py-0.5
-        prose-code:rounded
-        prose-pre:bg-gray-900
-        prose-pre:text-gray-100
-        prose-pre:p-4
-        prose-pre:rounded-lg
 
         /* Tablolar */
         prose-table:border-collapse
@@ -223,7 +214,7 @@ export default async function BlogPost({
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-gray-600 text-sm line-clamp-2 bg-red-500">
+                  <p className="text-gray-600 text-sm line-clamp-2">
                     {recentPost.excerpt}
                   </p>
                 </div>
